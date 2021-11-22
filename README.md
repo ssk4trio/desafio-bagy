@@ -48,6 +48,7 @@ Mutation de criação de pedido:
 
 Faltantes: 
 - [ ] Teste unitários
+- [ ] Docker
 
 ### Tecnlogias
 - Apollo-Server
