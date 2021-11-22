@@ -40,8 +40,61 @@ CRUDs realizados
   - Parcelas
   - Comprador
   - Status
-  
-Mutation de criação de pedido:
+### Querys e Mutations:
+Comprador:
+    
+    type Query {
+    customer(id: ID): Customer
+    customers: [Customer]
+    }
+
+    type Mutation {
+    createCustomer(data: CustomerInput): Customer!
+
+    updateCustomer(
+        id: ID!
+        data: CustomerInput
+    ): Customer!
+
+    deleteCustomer(id: ID!): Boolean
+    }  
+
+Produtos:
+
+    type Query {
+    products: [Product]
+    product(id: ID): Product
+    }
+    
+    type Mutation {
+    createProduct(data: ProductInput): Product!
+    
+        updateProduct(
+            id: ID!
+            data: ProductInput
+        ): Product!
+    
+        deleteProduct(id: ID!): Boolean
+    }
+
+Pedidos:
+
+        type Query {
+        orders: [Order!]!
+    }
+    
+    type Mutation {
+    createOrder(data: OrderInput!): Order!
+    
+        updateOrder(
+            id: ID!
+            data: OrderInput
+        ) : Order!
+    
+        deleteOrder(id: ID!): Boolean
+    }
+
+###Mutation de criação de pedido:
 - [X] Registrar a venda(criar pedido no banco de dados)
 - [X] Remover quantidade de produtos em estoque
 - [ ] Envio de email ao comprador - somente a configuração do email feita.
