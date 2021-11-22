@@ -1,0 +1,44 @@
+input CustomerInput {
+    name: String
+    email: String
+    cpf: String
+    birthDate: String
+    street: String
+    neighborhood: String
+    zipcode: String
+    city: String
+    state: String
+    country: String
+    number: Int
+}
+
+type Customer {
+    id: ID
+    name: String
+    email: String
+    cpf: String
+    birthDate: String
+    number: Int
+    street: String
+    zipcode: String
+    neighborhood: String
+    city: String
+    state: String
+    country: String
+}
+
+type Query {
+    customer(id: ID): Customer
+    customers: [Customer]
+}
+
+type Mutation {
+    createCustomer(data: CustomerInput): Customer!
+
+    updateCustomer(
+        id: ID!
+        data: CustomerInput
+    ): Customer!
+
+    deleteCustomer(id: ID!): Boolean
+}

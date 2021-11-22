@@ -1,0 +1,46 @@
+
+type Order {
+    id: ID!
+    products:[ProductOrder!]!
+    id_customer: ID!
+    installments: Int
+    status: String
+    create_at: String
+}
+
+type ProductOrder {
+    id: ID!
+    id_order: ID!
+    id_product: ID!
+    quantity: Int
+    price: Float
+}
+
+input OrderProductsInput {
+    id_product: ID!
+    quantity: Int!
+    price: Float
+}
+
+input OrderInput {
+    id_customer: ID
+    products: [OrderProductsInput!]!
+    installments: Int
+    status: String
+    create_at: String
+}
+
+type Query {
+    orders: [Order!]!
+}
+
+type Mutation {
+    createOrder(data: OrderInput!): Order!
+
+    updateOrder(
+        id: ID!
+        data: OrderInput
+    ) : Order!
+
+    deleteOrder(id: ID!): Boolean
+}
