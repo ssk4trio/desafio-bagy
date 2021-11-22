@@ -10,6 +10,7 @@
     $ npm start
 ###GraphQL Playground:
     http://localhost:4000
+
 ###Desenvolvimento de uma Api que faz registros de pedidos
 
 CRUDs realizados
@@ -40,6 +41,7 @@ CRUDs realizados
   - Parcelas
   - Comprador
   - Status
+  - 
 ### Querys e Mutations:
 Comprador:
     
