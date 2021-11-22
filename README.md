@@ -5,7 +5,7 @@
     $ cd desafio-bagy
     $ npm install
 
-### Inicial aplicação:
+### Inicia aplicação:
 
     $ npm start
 ### GraphQL Playground:
