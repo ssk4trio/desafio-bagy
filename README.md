@@ -46,30 +46,30 @@ CRUDs realizados
 **Comprador:**
     
     type Query {
-    customer(id: ID): Customer
-    customers: [Customer]
+        customer(id: ID): Customer
+        customers: [Customer]
     }
 
     type Mutation {
-    createCustomer(data: CustomerInput): Customer!
+        createCustomer(data: CustomerInput): Customer!
 
-    updateCustomer(
-        id: ID!
-        data: CustomerInput
-    ): Customer!
+        updateCustomer(
+            id: ID!
+            data: CustomerInput
+        ): Customer!
 
-    deleteCustomer(id: ID!): Boolean
+        deleteCustomer(id: ID!): Boolean
     }  
 
 **Produtos:**
 
     type Query {
-    products: [Product]
-    product(id: ID): Product
+        products: [Product]
+        product(id: ID): Product
     }
     
     type Mutation {
-    createProduct(data: ProductInput): Product!
+        createProduct(data: ProductInput): Product!
     
         updateProduct(
             id: ID!
@@ -86,7 +86,7 @@ CRUDs realizados
     }
     
     type Mutation {
-    createOrder(data: OrderInput!): Order!
+        createOrder(data: OrderInput!): Order!
     
         updateOrder(
             id: ID!

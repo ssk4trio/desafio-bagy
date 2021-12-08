@@ -2,6 +2,16 @@ require('dotenv').config()
 const db = require("../../../database/connection");
 const transporter = require("../../../config/email");
 
+async function checkStock(products) {
+    for (const product of products) {
+        const { stock, name } = await (await db("products").select("stock", "name").where("id", product.id_product))[0];
+        console.log(stock)
+        if(stock <= product.quantity) {
+            throw new Error(`Quantidade do produto ${name} em estoque é inferior a quantidade desejada. EM ESTOQUE: ${stock}`)
+        }
+    }
+}
+
 async function updateStock (product) {
     const stockProducts = await(await db("products")
         .select("stock")
@@ -15,6 +25,7 @@ async function updateStock (product) {
 
     return stockProducts.stock;
 }
+
 module.exports = {
 
     Order: {
@@ -47,6 +58,8 @@ module.exports = {
     Mutation: {
         createOrder: async (_, { data }) => {
             const { id_customer, installments, products, status, create_at } = data;
+
+            await checkStock(products);
 
             const id_order = await (await db('orders').insert({ id_customer, installments, status, create_at }))[0];
 
