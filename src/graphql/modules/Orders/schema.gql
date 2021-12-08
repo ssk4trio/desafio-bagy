@@ -1,6 +1,7 @@
 
 type Order {
     id: ID!
+    price: Float
     products:[ProductOrder]
     id_customer: ID!
     installments: Int
@@ -13,7 +14,6 @@ type ProductOrder {
     id_order: ID!
     id_product: ID!
     quantity: Int
-    price: Float
 }
 
 input OrderProductsInput {
@@ -24,6 +24,7 @@ input OrderProductsInput {
 
 input OrderInput {
     id_customer: ID
+    price: Float
     products: [OrderProductsInput!]!
     installments: Int
     status: String

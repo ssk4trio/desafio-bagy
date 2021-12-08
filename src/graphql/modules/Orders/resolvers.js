@@ -2,11 +2,19 @@ require('dotenv').config()
 const db = require("../../../database/connection");
 const transporter = require("../../../config/email");
 
+async function totalPrice(products) {
+    let total = 0;
+    for (const product of products) {
+        const { price } = await (await db("products").select("price").where("id", product.id_product))[0];
+        total += price * product.quantity;
+    }
+    return total;
+}
+
 async function checkStock(products) {
     for (const product of products) {
         const { stock, name } = await (await db("products").select("stock", "name").where("id", product.id_product))[0];
-        console.log(stock)
-        if(stock <= product.quantity) {
+        if(stock < product.quantity) {
             throw new Error(`Quantidade do produto ${name} em estoque é inferior a quantidade desejada. EM ESTOQUE: ${stock}`)
         }
     }
@@ -29,6 +37,9 @@ async function updateStock (product) {
 module.exports = {
 
     Order: {
+        price: (order) => {
+            return totalPrice(order.products);
+        },
         create_at: (order) => {
             return new Date(order.create_at);
         },
