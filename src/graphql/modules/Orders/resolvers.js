@@ -7,15 +7,13 @@ async function updateStock (product) {
         .select("stock")
         .where("id", "=", product.id_product))[0];
 
-    if(stockProducts.stock <= 0 ) {
-        console.log("Error, não há mais esse item em estoque");
-        return
-    }
     stockProducts.stock -= product.quantity;
 
     await db("products")
         .where("id", product.id_product)
         .update({stock: stockProducts.stock});
+
+    return stockProducts.stock;
 }
 module.exports = {
 
@@ -27,10 +25,10 @@ module.exports = {
 
     Query: {
         orders: async () => {
-
+            // const orders = await db("product_order").select("*").leftJoin("orders", 'product_order.id_product', "orders.id");
+            // console.log("hdhs", orders)
             const orders = await db("orders").select('*');
             const products = await db("product_order").select("*");
-
             for (const order of orders) {
                 let productsOfOrder = [];
                 for (const product of products) {
@@ -43,6 +41,7 @@ module.exports = {
                     }
                 }
             }
+            console.log(orders)
             return orders;
         },
     },
@@ -54,15 +53,14 @@ module.exports = {
             const id_order = await (await db('orders').insert({ id_customer, installments, status, create_at }))[0];
 
             for (const product of products) {
-                const {quantity, price, id_product } = product;
+                const { quantity, price, id_product } = product;
+
+                await updateStock(product);
                 const idProductOrder = await db("product_order").insert({ id_order, quantity, price, id_product });
 
                 product.id = idProductOrder[0];
-
-                await updateStock(product);
             }
             const customer = await db("customers").where({id: id_customer})
-            console.log(customer)
             const mailOptions = {
                 from: process.env.MAIL_USER,
                 to: customer.email,
@@ -97,7 +95,7 @@ module.exports = {
         },
 
         deleteOrder: async (_, id) => {
-            return db("product_order").where({ id: id }).delete();
+            return db("orders").where(id).delete();
         }
     }
 }

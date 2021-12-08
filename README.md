@@ -43,7 +43,7 @@ CRUDs realizados
   - Status
   - 
 ### Querys e Mutations:
-Comprador:
+**Comprador:**
     
     type Query {
     customer(id: ID): Customer
@@ -61,7 +61,7 @@ Comprador:
     deleteCustomer(id: ID!): Boolean
     }  
 
-Produtos:
+**Produtos:**
 
     type Query {
     products: [Product]
@@ -79,9 +79,9 @@ Produtos:
         deleteProduct(id: ID!): Boolean
     }
 
-Pedidos:
+**Pedidos:**
 
-        type Query {
+    type Query {
         orders: [Order!]!
     }
     
