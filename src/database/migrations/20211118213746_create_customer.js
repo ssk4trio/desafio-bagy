@@ -4,7 +4,7 @@ exports.up = function(knex) {
     table.increments("id").primary();
     table.string("email").notNullable().unique();
     table.string("name").notNullable();
-    table.string('cpf').notNullable();
+    table.string('cpf').notNullable().unique();
     table.date("birthDate").notNullable();
     table.string('street').notNullable();
     table.string('neighborhood').notNullable();

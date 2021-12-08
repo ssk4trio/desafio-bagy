@@ -25,8 +25,6 @@ module.exports = {
 
     Query: {
         orders: async () => {
-            // const orders = await db("product_order").select("*").leftJoin("orders", 'product_order.id_product', "orders.id");
-            // console.log("hdhs", orders)
             const orders = await db("orders").select('*');
             const products = await db("product_order").select("*");
             for (const order of orders) {
