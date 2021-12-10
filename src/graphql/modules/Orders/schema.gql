@@ -25,10 +25,9 @@ input OrderProductsInput {
 input OrderInput {
     id_customer: ID
     price: Float
-    products: [OrderProductsInput!]!
+    products: [OrderProductsInput]
     installments: Int
     status: String
-    create_at: String
 }
 
 type Query {

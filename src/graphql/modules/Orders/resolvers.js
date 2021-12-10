@@ -40,9 +40,6 @@ module.exports = {
         price: (order) => {
             return totalPrice(order.products);
         },
-        create_at: (order) => {
-            return new Date(order.create_at);
-        },
     },
 
     Query: {
@@ -68,34 +65,41 @@ module.exports = {
 
     Mutation: {
         createOrder: async (_, { data }) => {
-            const { id_customer, installments, products, status, create_at } = data;
+            const { id_customer, installments, products, status } = data;
 
             await checkStock(products);
 
-            const id_order = await (await db('orders').insert({ id_customer, installments, status, create_at }))[0];
+            const id_order = await (await db('orders').insert({ id_customer, installments, status }))[0];
+            const { create_at } = await (await db('orders').select("create_at").where("id", id_order))[0];
 
             for (const product of products) {
                 const { quantity, price, id_product } = product;
-
                 await updateStock(product);
                 const idProductOrder = await db("product_order").insert({ id_order, quantity, price, id_product });
 
                 product.id = idProductOrder[0];
             }
-            const customer = await db("customers").where({id: id_customer})
+            const customer = await (await db("customers").where({id: id_customer}))[0];
+
+            console.log(customer.email)
             const mailOptions = {
                 from: process.env.MAIL_USER,
                 to: customer.email,
                 subject: `
                 Seu pedido foi realizado com sucesso ${customer.name}!
                 `,
+                text: `Olá ${customer.name}! Status do pedido: ${status}.
+                No valor de: ${await totalPrice(products)}
+                `,
             };
-            transporter.sendMail(mailOptions, (err, info) => {
+
+            await transporter.sendMail(mailOptions, (err, info) => {
                 if(err)
                     console.log(err)
                 else
                     console.log(info);
             });
+
             return { id: id_order, id_customer, installments, status, create_at, products: products };
 
 },
@@ -104,12 +108,12 @@ module.exports = {
             const id_order = await db('orders').where("id", id_customer).update({ id_customer, installments, status, create_at });
 
             for (const product of products) {
-                const { quantity, price, id_product } = product;
+                const { quantity, id_product } = product;
 
                 product.id_order = id_order;
                 product.id = id_product;
 
-                await db("product_order").where("id", id).update({ id_order, quantity, price, id_product });
+                await db("product_order").where("id", id).update({ id_order, quantity, id_product });
 
                 await updateStock(product);
             }

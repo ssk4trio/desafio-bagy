@@ -99,7 +99,7 @@ CRUDs realizados
 ### Mutation de criação de pedido:
 - [X] Registrar a venda(criar pedido no banco de dados)
 - [X] Remover quantidade de produtos em estoque
-- [ ] Envio de email ao comprador - somente a configuração do email feita.
+- [X] Envio de email ao comprador
 
 #### Faltantes: 
 - [ ] Teste unitários

@@ -21,6 +21,7 @@
     "graphql-tools": "^8.2.0",
     "knex": "^0.95.14",
     "nodemailer": "^6.7.1",
+    "nodemailer-smtp-transport": "^2.7.4",
     "sqlite3": "^5.0.2"
   },
   "devDependencies": {
